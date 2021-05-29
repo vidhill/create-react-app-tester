@@ -4,7 +4,7 @@ import { giphySearchDownsampled } from "../services/giphyService";
 import { useLocalStorage } from "../hooks";
 import { makePreventDefault } from "../utils/functionalUtils";
 
-const localStorageKey = "searchTerm";
+const localStorageKey = "gif-search-term";
 const testMode = true; // rendering image not required, set to false 
 
 const renderImage = (url, altText) => {
