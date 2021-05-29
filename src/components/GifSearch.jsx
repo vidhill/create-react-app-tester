@@ -5,9 +5,10 @@ import { useLocalStorage } from "../hooks";
 import { makePreventDefault } from "../utils/functionalUtils";
 
 const localStorageKey = "searchTerm";
+const testMode = true; // rendering image not required, set to false 
 
 const renderImage = (url, altText) => {
-  if (url) {
+  if (url && testMode) {
     return <img src={url} alt={"Gif of " + altText} />;
   }
   return null;
