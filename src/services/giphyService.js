@@ -13,4 +13,10 @@ const giphyService = (searchTerm) => {
     .then((res) => res.data);
 };
 
-export { giphyService };
+const getGiphySearchDownsampled = (...args) => {
+  return giphyService(...args).then(
+    (response) => response.fixed_height_downsampled_url
+  );
+};
+
+export { giphyService, getGiphySearchDownsampled };
