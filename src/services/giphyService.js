@@ -3,7 +3,7 @@ import ky from "ky";
 const baseUrl = "https://api.giphy.com/v1/gifs/random";
 const apiKey = "e26089724ab941889d776827bf7c0c32";
 
-const giphyService = (searchTerm) => {
+const giphySearch = (searchTerm) => {
   const queryParams = new URLSearchParams({
     api_key: apiKey,
     tag: searchTerm,
@@ -14,10 +14,10 @@ const giphyService = (searchTerm) => {
     .then((res) => res.data);
 };
 
-const getGiphySearchDownsampled = (...args) => {
-  return giphyService(...args).then(
+const giphySearchDownsampled = (...args) => {
+  return giphySearch(...args).then(
     (response) => response.fixed_height_downsampled_url
   );
 };
 
-export { giphyService, getGiphySearchDownsampled };
+export { giphySearch, giphySearchDownsampled };
