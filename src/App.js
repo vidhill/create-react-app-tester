@@ -1,40 +1,52 @@
-import './App.css';
-import React, { useState, useEffect } from "react";
-import { giphyService } from "./services";
 
-const localStorageKey = "searchTerm"
+import React, { useState, useEffect } from "react";
+
+import "./App.css";
+import { giphyService } from "./services";
+import { useLocalStorage } from "./hooks";
+
+const localStorageKey = "searchTerm";
+
+const renderImage = (url, altText) => {
+  if (url) {
+    return <img src={url} alt={"Gif of " + altText} />;
+  }
+  return null;
+};
 
 function App() {
-  const [inputText, setInputText] = useState(window.localStorage.getItem(localStorageKey));
-  const [imageUrl, seImageUrl] = useState("");
+  const [localStorageVal, updateLocalStorageVal] =
+    useLocalStorage(localStorageKey);
+  const [inputText, updateInputText] = useState(localStorageVal);
+  const [imageUrl, updateImageUrl] = useState("");
 
-  useEffect(()=>{
-    window.localStorage.setItem(localStorageKey, inputText) 
-  }, [inputText])    
+  useEffect(() => {
+    updateLocalStorageVal(inputText);
+  }, [inputText, updateLocalStorageVal]);
 
-  const submitHandler = (evt)=>{
-    giphyService(inputText).then((resp)=> {
-      seImageUrl(resp.fixed_height_downsampled_url)
-    })
-    evt.preventDefault();
-  }
+  const submitHandler = (event) => {
+    giphyService(inputText).then((resp) => {
+      updateImageUrl(resp.fixed_height_downsampled_url);
+    });
+    event.preventDefault();
+  };
 
-  const changeHandler = (evt)=> setInputText(evt.target.value)
-  const resetHandler = ()=> {
-    setInputText("");
-    seImageUrl("");
-  }
-
+  const changeHandler = (evt) => updateInputText(evt.target.value);
+  const resetHandler = () => {
+    updateInputText("");
+    updateImageUrl("");
+  };
 
   return (
-    <div className="App"> 
-      <header>My Header</header>
+    <div className="App">
+      <header>App Header</header>
       <form onSubmit={submitHandler} action="#">
         <input type="text" value={inputText} onChange={changeHandler} />
       </form>
       <button onClick={resetHandler}>Reset</button>
       <p>{imageUrl}</p>
-      <footer>My footer</footer>
+      {renderImage(imageUrl, inputText)}
+      <footer>App footer</footer>
     </div>
   );
 }
