@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-import { getGiphySearchDownsampled } from "../services";
+import { giphySearchDownsampled } from "../services/giphyService";
 import { useLocalStorage } from "../hooks";
-import { functionalUtils } from "../utils";
-
-const { makePreventDefault } = functionalUtils;
+import { makePreventDefault } from "../utils/functionalUtils";
 
 const localStorageKey = "searchTerm";
 
@@ -26,7 +24,7 @@ const GifSearch = () => {
   }, [inputText, updateLocalStorageVal]);
 
   const submitHandler = () => {
-    getGiphySearchDownsampled(inputText).then(updateImageUrl);
+    giphySearchDownsampled(inputText).then(updateImageUrl);
   };
 
   const changeHandler = (evt) => updateInputText(evt.target.value);
