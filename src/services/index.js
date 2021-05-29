@@ -1,1 +1,1 @@
-export * from "./giphyService";
+export * as giphyService from "./giphyService";
