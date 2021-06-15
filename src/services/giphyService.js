@@ -1,11 +1,23 @@
 import ky from "ky";
 
-const baseUrl = "https://api.giphy.com/v1/gifs/random?api_key=e26089724ab941889d776827bf7c0c32&tag=";
+const baseUrl = "https://api.giphy.com/v1/gifs/random";
+const apiKey = "e26089724ab941889d776827bf7c0c32";
 
-const giphyService = async (searchTerm) => {
-  const resp = await ky.get(baseUrl + searchTerm);
-  const json = await resp.json();
-  return json.data;
+const giphySearch = (searchTerm) => {
+  const queryParams = new URLSearchParams({
+    api_key: apiKey,
+    tag: searchTerm,
+  });
+  return ky
+    .get(baseUrl + "?" + queryParams.toString())
+    .json()
+    .then((res) => res.data);
 };
 
-export { giphyService };
+const giphySearchDownsampled = (...args) => {
+  return giphySearch(...args).then(
+    (response) => response.fixed_height_downsampled_url
+  );
+};
+
+export { giphySearch, giphySearchDownsampled };

@@ -1,1 +1,1 @@
-export { giphyService } from './giphyService';
+export * as giphyService from "./giphyService";
